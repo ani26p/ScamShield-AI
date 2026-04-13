@@ -1,0 +1,25 @@
+Feature names: ['url_length', 'num_dots', 'has_at', 'has_hyphen', 'has_suspicious_kw', 'url_entropy', 'is_ip_address', 'domain_length', 'has_https']
+
+URL: https://www.google.com/
+  has_https=1  url_entropy=3.6425  has_suspicious_kw=0
+  PRED=PHISHING  phish_prob=0.9935  safe_prob=0.0065
+
+URL: https://amazon.com
+  has_https=1  url_entropy=3.6144  has_suspicious_kw=0
+  PRED=PHISHING  phish_prob=0.9961  safe_prob=0.0039
+
+URL: https://github.com
+  has_https=1  url_entropy=3.6835  has_suspicious_kw=0
+  PRED=PHISHING  phish_prob=0.9974  safe_prob=0.0026
+
+URL: http://paypal-secure-login.verify-account.com/signin
+  has_https=0  url_entropy=4.3296  has_suspicious_kw=1
+  PRED=PHISHING  phish_prob=0.6689  safe_prob=0.3311
+
+URL: http://bank-update.secure-login.verify.ru/account
+  has_https=0  url_entropy=4.3794  has_suspicious_kw=1
+  PRED=PHISHING  phish_prob=0.651  safe_prob=0.349
+
+URL: http://192.168.1.1/login
+  has_https=0  url_entropy=3.7721  has_suspicious_kw=1
+  PRED=PHISHING  phish_prob=0.6156  safe_prob=0.3844

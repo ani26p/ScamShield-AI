@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScamShield — URL Analysis Report</title>
+  <meta name="description" content="AI-powered phishing URL detection and analysis report by ScamShield." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style-analyze.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ── Animated grid background ── -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <svg class="nav-shield" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.35C17.25 21.15 21 16.25 21 11V6L12 2z" stroke="currentColor"
+            stroke-width="1.8" stroke-linejoin="round" />
+          <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+        <span>ScamShield AI</span>
+      </div>
+      <div class="nav-links">
+        <!-- <a href="index.html" class="nav-link">Home</a> -->
+        <a href="#summary">Summary</a>
+        <a href="#features">Features</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#about">About</a>
+      </div>
+      <div class="nav-badge" id="nav-badge">
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Empty state (when no ?url= provided) ── -->
+  <section class="search-hero hidden" id="empty-state">
+    <div class="search-hero-inner">
+      <div class="hero-icon">⚠</div>
+      <h1 class="hero-title">No URL Provided</h1>
+      <p class="hero-sub">Add a URL or go back to the homepage.</p>
+      <a class="search-btn" href="index.html">Back to Home</a>
+      <p class="search-hint">Use <code>?url=https://example.com</code> to open this page directly.</p>
+    </div>
+  </section>
+
+  <!-- ── Main content (shown after analysis) ── -->
+  <main class="main hidden" id="main-content">
+
+    <!-- ── Loading overlay ── -->
+    <div class="loading-overlay" id="loading-overlay">
+      <div class="loading-card">
+        <div class="loading-spinner"></div>
+        <h3 class="loading-title">Analyzing URL…</h3>
+        <p class="loading-sub">Running 15 AI security checks</p>
+        <div class="loading-steps" id="loading-steps">
+          <span class="step active">Extracting features</span>
+          <span class="step">Running ML model</span>
+          <span class="step">Generating report</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" id="summary">
+      <div class="container">
+        <div class="url-card" id="url-card">
+          <span class="url-label">Analyzed URL</span>
+          <p class="url-value" id="url-value">—</p>
+          <div class="url-meta">
+            <span id="url-protocol" class="tag tag-blue">—</span>
+            <span id="url-domain" class="tag tag-gray">—</span>
+          </div>
+        </div>
+        <div class="result-grid">
+          <div class="card verdict-card" id="verdict-card">
+            <div class="verdict-badge" id="verdict-badge"><span id="verdict-icon"></span><span
+                id="verdict-label"></span></div>
+            <p class="verdict-desc" id="verdict-desc"></p>
+            <div class="response-time" id="response-time"></div>
+          </div>
+          <div class="card score-card">
+            <p class="card-label">Credibility Score</p>
+            <div class="gauge-wrap"><canvas id="gauge-canvas" width="200" height="110"></canvas>
+              <div class="gauge-score"><span id="gauge-num" class="gauge-num">0</span><span
+                  class="gauge-unit">/100</span></div>
+            </div>
+            <p class="gauge-legend" id="gauge-legend">—</p>
+          </div>
+          <div class="card conf-card">
+            <p class="card-label">Model Confidence</p>
+            <div class="conf-big" id="conf-big">—</div>
+            <div class="conf-track">
+              <div class="conf-bar" id="conf-bar"></div>
+            </div>
+            <p class="conf-model" id="conf-model"></p>
+            <div class="risk-level" id="risk-level"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Feature Breakdown</h2>
+          <p class="section-sub">15 security signals analyzed by the AI model</p>
+        </div>
+        <div class="feature-grid" id="feature-grid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="analytics">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Visual Analytics</h2>
+          <p class="section-sub">Probability distribution from the AI model</p>
+        </div>
+        <div class="analytics-grid">
+          <div class="card chart-card">
+            <p class="card-label">Risk Distribution</p>
+            <div class="chart-wrap"><canvas id="donut-chart"></canvas></div>
+            <div class="chart-legend" id="chart-legend"></div>
+          </div>
+          <div class="card signals-card">
+            <p class="card-label">Signal Summary</p>
+            <div id="signal-bars"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="technical">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Technical Details</h2>
+          <p class="section-sub">Raw URL structure breakdown</p>
+        </div>
+        <div class="tech-grid" id="tech-grid"></div>
+      </div>
+    </section>
+
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-text">
+            <div class="about-eyebrow">About ScamShield</div>
+            <h2 class="about-title">Next-Generation<br />Phishing Protection</h2>
+            <p class="about-desc">ScamShield uses an ensemble machine learning model trained on hundreds of thousands
+              real-world URLs to deliver near-perfect phishing detection in real time.</p>
+          </div>
+          <div class="about-right">
+            <div class="about-stats">
+              <div class="stat"><span class="stat-num">99.75%</span><span class="stat-lbl">F1 Score</span></div>
+              <div class="stat"><span class="stat-num">200K+</span><span class="stat-lbl">URLs Trained On</span></div>
+              <div class="stat"><span class="stat-num">&lt;50ms</span><span class="stat-lbl">Response Time</span></div>
+              <a href="index.html" class="btn-explore">Explore ScamShield</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="error-page hidden" id="error-page">
+    <div class="error-card">
+      <div class="error-emoji">⚠</div>
+      <h2 id="err-title">Analysis Failed</h2>
+      <p id="err-msg">Could not connect to the ScamShield backend.</p>
+      <p class="err-hint">Make sure the backend is running:<br /><code>uvicorn main:app --reload --port 8000</code></p>
+      <button class="btn-primary" onclick="location.assign('index.html')">Retry</button>
+    </div>
+  </div>
+
+  <script src="analyze.js"></script>
+</body>
+
+</html>

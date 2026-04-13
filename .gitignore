@@ -1,0 +1,6 @@
+# Ignore local Python caches
+__pycache__/
+**/__pycache__/
+
+# Exclude dataset file flagged by GitHub push protection
+Datasets/malicious_phish.csv
